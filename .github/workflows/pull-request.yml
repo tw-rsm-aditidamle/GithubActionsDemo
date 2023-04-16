@@ -2,19 +2,29 @@ name: PR
 
 on:
   push:
-    branches:
-      - dev
+    branches: dev
   pull_request:
-    branches: [ dev ]
+    branches: dev
 
 jobs:
 
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v3
 
       - name: Build
-        run: |
-          ./gradlew buildDebug
+        run: ./gradlew buildDebug
+
+  test:
+    name: Run tests
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      - name: test
+        run: ./gradlew testDebug
